@@ -1,0 +1,47 @@
+[package]
+name = "modbus-connect"
+version = "0.1.0"
+edition = "2021"
+authors = ["phk-mvn"]
+description = "A robust, high-performance Modbus RTU/TCP framework with port serialization, declarative schemas, polling manager, and auto-discovery"
+license = "MIT"
+repository = "https://github.com/phk-mvn/modbus-connect-rs"
+readme = "README.md"
+keywords = ["modbus", "rtu", "tcp", "serial", "automation"]
+categories = ["asynchronous", "network-programming", "hardware-support"]
+
+[features]
+default = ["rtu", "tcp", "schema", "polling", "scanner", "emulator", "blocking"]
+
+# Feature flags for modular compilation
+rtu = ["dep:tokio-serial"]
+tcp = ["tokio/net", "tokio/io-util"]
+schema = []
+polling = []
+scanner = []
+emulator = []
+blocking = []
+plugin = []
+
+[dependencies]
+# Asynchronous Tokio runtime (timers, channels, macros, io utilities)
+tokio = { version = "1.38", features = ["sync", "time", "rt-multi-thread", "macros", "io-util"] }
+
+# Serial port management (RS-485 / RS-232), enabled via "rtu" feature
+tokio-serial = { version = "5.4", optional = true }
+
+# High-performance byte buffers
+bytes = "1.6"
+
+# Typed error definitions
+thiserror = "1.0"
+
+# Diagnostics and structured tracing
+tracing = "0.1"
+
+# Async methods in traits
+async-trait = "0.1"
+
+[dev-dependencies]
+# Console tracing subscriber for unit and integration tests
+tracing-subscriber = "0.3"
